@@ -1,0 +1,55 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+.icon-block {
+  padding: 20px 15px 0 15px;
+}
+
+.icon-block .material-icons {
+	font-size: 30px;
+}
+
+#hero-image {
+  background: url("../img/hero.jpg") blue no-repeat;
+  height: 400px;
+  background-size: cover;
+}
+
+#footer-top {
+  padding-top: 0;
+}
+
+#footer-nav {
+  padding-left: 30px;
+}
+
+#footer-row {
+  margin-bottom: 0;
+}
+
+h1.header {
+  font-weight: 500;
+  margin-top: 100px;
+}
+
+i {
+  vertical-align: bottom;
+  margin-right: 5px;
+}
+
+div.container {
+  width: 80%;
+}
+
+div.nav-wrapper {
+  width: 98%;
+}
+
+div.footer {
+   width: 78%;
+}
