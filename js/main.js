@@ -12,18 +12,20 @@ function createOrderTable() {
   let orderTable = document.getElementById('order-table');
   let table = document.createElement('table');
   let header = createHeader();
+  // let body = document.createElement('tbody');
   let subtotalRow = createSubtotalRow();
-  // let taxRow = createTaxRow();
-  // let totalRow = createTotalRow();
+  let taxRow = createTaxRow();
+  let totalRow = createTotalRow();
 
   table.setAttribute("id", "items");
   table.setAttribute("class", "striped");
-  
+
   orderTable.appendChild(table);
   table.appendChild(header);
+  // table.appendChild(body);
   table.appendChild(subtotalRow);
-  // table.appendChild(taxRow);
-  // table.appendChild(totalRow);
+  table.appendChild(taxRow);
+  table.appendChild(totalRow);
 }
 
 //==============================================================================
@@ -65,19 +67,55 @@ function createOrderRow(item, price) {
 //==============================================================================
 // create subtotal row
 function createSubtotalRow() {
-  let tRow  = document.createElement('tr');
+  let stRow  = document.createElement('tr');
   let tdLabel = document.createElement('td');
   let tdSubtotal = document.createElement('td');
 
   tdLabel.textContent = "Subtotal";
   tdLabel.style.textAlign="right";
-  tRow.appendChild(tdLabel);
+  stRow.appendChild(tdLabel);
   tdSubtotal.textContent = 0;
   tdSubtotal.setAttribute("class", "currency");
-  tRow.appendChild(tdSubtotal);
-  tRow.setAttribute("id", "subtotal");
+  stRow.appendChild(tdSubtotal);
+  stRow.setAttribute("id", "subtotal");
 
-  return tRow;
+  return stRow;
+}
+
+//==============================================================================
+// create tax row
+function createTaxRow() {
+  let taxRow  = document.createElement('tr');
+  let tdLabel = document.createElement('td');
+  let tdTax = document.createElement('td');
+
+  tdLabel.textContent = "Tax";
+  tdLabel.style.textAlign="right";
+  taxRow.appendChild(tdLabel);
+  tdTax.textContent = 0;
+  tdTax.setAttribute("class", "currency");
+  taxRow.appendChild(tdTax);
+  taxRow.setAttribute("id", "tax");
+
+  return taxRow;
+}
+
+//==============================================================================
+// create total row
+function createTotalRow() {
+  let totalRow  = document.createElement('tr');
+  let tdLabel = document.createElement('td');
+  let tdTotal = document.createElement('td');
+
+  tdLabel.textContent = "Total";
+  tdLabel.style.textAlign="right";
+  totalRow.appendChild(tdLabel);
+  tdTotal.textContent = 0;
+  tdTotal.setAttribute("class", "currency");
+  totalRow.appendChild(tdTotal);
+  totalRow.setAttribute("id", "total");
+
+  return totalRow;
 }
 
 //==============================================================================
@@ -129,11 +167,36 @@ function calculateSubtotal() {
     var price = Number(priceString.replace(/[^0-9\.]+/g,""));
 
     subtotal += price;
-    console.log(subtotal);
   }
 
   let trSubtotal = document.getElementById("subtotal");
   let tdSubtotal = trSubtotal.lastChild;
 
   tdSubtotal.textContent = "$" + subtotal;
+  calculateTax(subtotal);
+}
+
+//==============================================================================
+// calculate / update tax
+function calculateTax(subtotal) {
+  let taxRate = .1 // 10%
+
+  let trTax = document.getElementById("tax");
+  let tdTax = trTax.lastChild;
+  let tax = subtotal * taxRate;
+
+  tdTax.textContent = "$" + tax.toFixed(2);
+  calculateTotal(subtotal, tax);
+}
+
+//==============================================================================
+// calculate / update total
+function calculateTotal(subtotal, tax) {
+  let taxRate = .1 // 10%
+
+  let trTotal = document.getElementById("total");
+  let tdTotal = trTotal.lastChild;
+  let total = "$" + (subtotal + tax).toFixed(2);
+
+  tdTotal.textContent = total;
 }
