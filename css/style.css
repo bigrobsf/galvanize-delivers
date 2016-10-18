@@ -41,7 +41,7 @@ h1.header {
   margin-top: 100px;
 }
 
-p.card-label {
+p.item-label {
   font-size: 20px;
 }
 
@@ -49,6 +49,8 @@ i {
   vertical-align: bottom;
   margin-right: 5px;
 }
+
+t
 
 div.container {
   width: 80%;
@@ -60,4 +62,8 @@ div.nav-wrapper {
 
 div.footer {
    width: 78%;
+}
+
+th.currency, td.currency {
+  text-align: right;
 }
