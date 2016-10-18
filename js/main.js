@@ -4,6 +4,7 @@
 window.onload = function main() {
   createOrderTable();
   activateCards();
+  activateOrderBtn();
 }
 
 //==============================================================================
@@ -47,7 +48,6 @@ function createHeader() {
 
   return tHead;
 }
-
 
 //==============================================================================
 // create order table row
@@ -120,28 +120,6 @@ function createTotalRow() {
 }
 
 //==============================================================================
-// add event listener to the cards
-function activateCards() {
-  let cards = document.getElementsByClassName('card-action');
-
-  for (let i = 0; i < cards.length; i++) {
-    cards[i].addEventListener('click', clickCardHandler);
-  }
-}
-
-//==============================================================================
-// event handler to add the target to the order table
-function clickCardHandler(event) {
-  // do not allow the event to propogate to all cards
-  if (event.target === event.currentTarget) {
-    return;
-  }
-
-  event.preventDefault(); // prevents browser from getting another page
-  addOrderRow(event.target);
-}
-
-//==============================================================================
 // create order table row for the current card and insert it before subtotal row
 function addOrderRow(card) {
   let gParent = card.parentElement.parentElement;
@@ -155,7 +133,6 @@ function addOrderRow(card) {
 
   calculateSubtotal();
 }
-
 
 //==============================================================================
 // calculate / update subtotal
@@ -200,4 +177,70 @@ function calculateTotal(subtotal, tax) {
   let total = "$" + (subtotal + tax).toFixed(2);
 
   tdTotal.textContent = total;
+}
+
+//==============================================================================
+// add event listener to the cards
+function activateCards() {
+  let cards = document.getElementsByClassName('card-action');
+
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].addEventListener('click', clickCardHandler);
+  }
+}
+
+//==============================================================================
+// event handler to add the target to the order table
+function clickCardHandler(event) {
+  // do not allow the event to propogate to all cards
+  if (event.target === event.currentTarget) {
+    return;
+  }
+
+  event.preventDefault(); // prevents browser from getting another page
+  addOrderRow(event.target);
+}
+
+//==============================================================================
+// add event listener to the order button
+function activateOrderBtn() {
+  let orderBtn = document.getElementById('order-btn');
+
+  orderBtn.addEventListener('click', orderClickHandler);
+}
+
+//==============================================================================
+// event handler to validate name, phone, and address fields and that order
+// table is not empty
+function orderClickHandler(event) {
+  event.preventDefault(); // prevents browser from getting another page
+
+  let orderItems = document.getElementsByClassName("amount");
+
+  let name = document.getElementById('full-name').value;
+  let phone = document.getElementById('phone').value;
+  let address = document.getElementById('address').value;
+
+  if (orderItems.length === 0) {
+    var $toastContent = $('<span>There are no items in your order.</span>');
+    Materialize.toast($toastContent, 2500);
+  }
+
+  if (!(name)) {
+    var $toastContent = $('<span>Please enter your name.</span>');
+    Materialize.toast($toastContent, 2500);
+
+  } else if (!(phone)) {
+    var $toastContent = $('<span>Please enter your phone.</span>');
+    Materialize.toast($toastContent, 2500);
+
+  } else if (!(address)) {
+    var $toastContent = $('<span>Please enter your address.</span>');
+    Materialize.toast($toastContent, 2500);
+
+  } else {
+    var $toastContent = $('<span>Order Placed!</span>');
+    Materialize.toast($toastContent, 2500);
+    setTimeout(document.location.reload.bind(document.location), 3000);
+  }
 }
