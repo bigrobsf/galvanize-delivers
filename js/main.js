@@ -12,17 +12,18 @@ function createOrderTable() {
   let orderTable = document.getElementById('order-table');
   let table = document.createElement('table');
   let header = createHeader();
-  // let body = document.createElement('tbody');
+  let body = document.createElement('tbody');
   let subtotalRow = createSubtotalRow();
   let taxRow = createTaxRow();
   let totalRow = createTotalRow();
 
   table.setAttribute("id", "items");
   table.setAttribute("class", "striped");
+  body.setAttribute("id", "body");
 
   orderTable.appendChild(table);
   table.appendChild(header);
-  // table.appendChild(body);
+  table.appendChild(body);
   table.appendChild(subtotalRow);
   table.appendChild(taxRow);
   table.appendChild(totalRow);
@@ -147,11 +148,11 @@ function addOrderRow(card) {
   let item = gParent.getElementsByClassName("item-label");
   let price = gParent.getElementsByClassName("item-price");
 
-  let targetRow = document.getElementById("subtotal");
+  let tableBody = document.getElementById("body");
   let newRow = createOrderRow(item[0].textContent, price[0].textContent);
-  let parent = targetRow.parentNode;
 
-  parent.insertBefore(newRow, targetRow);
+  tableBody.appendChild(newRow);
+
   calculateSubtotal();
 }
 
